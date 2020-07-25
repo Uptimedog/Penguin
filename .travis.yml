@@ -38,9 +38,9 @@ script:
   - export PATH="$PATH:$GOBIN"
   # Fix dir names
   - cd $GOPATH/src/github.com/
-  - mv Clivern/Scaffold Clivern/scaffold
+  - mv Clivern/Penguin Clivern/penguin
   - mv Clivern clivern
-  - cd clivern/scaffold
+  - cd clivern/penguin
   # Config & execute ci tasks
   - make install_revive
   - make ci
