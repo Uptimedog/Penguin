@@ -17,14 +17,14 @@ type Configs struct {
 
 // General type
 type General struct {
-	Key    string `toml:"key"`
+	Key string `toml:"key"`
 }
 
 // NewConfigs creates an instance of Configs
 func NewConfigs() *Configs {
 	return &Configs{
 		General: General{
-			Key:    "value",
+			Key: "value",
 		},
 	}
 }
