@@ -34,7 +34,7 @@ var versionCmd = &cobra.Command{
 
 		fmt.Println(
 			fmt.Sprintf(
-				`Current Scaffold Version %v Commit %v, Built @%v By %v.`,
+				`Current Penguin Version %v Commit %v, Built @%v By %v.`,
 				Version,
 				Commit,
 				Date,
