@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="/assets/gopher3.png" width="230" />
+    <img src="/assets/gopher1.png" width="230" />
     <h3 align="center">Penguin</h3>
     <p align="center">
         <a href="https://travis-ci.com/Clivern/Penguin"><img src="https://travis-ci.com/Clivern/Penguin.svg?branch=master"></a>
