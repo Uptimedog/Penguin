@@ -20,11 +20,11 @@ var Verbose bool
 var Config string
 
 // ConfigFilePath var
-const ConfigFilePath = "penguin/config.toml"
+const ConfigFilePath = "penguin_config.toml"
 
 var rootCmd = &cobra.Command{
 	Use: "penguin",
-	Short: `~
+	Short: `Daemon for fast and flexible stats aggregation and collection
 
 If you have any suggestions, bug reports, or annoyances please report
 them to our issue tracker at <https://github.com/clivern/penguin/issues>`,
