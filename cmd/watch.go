@@ -11,7 +11,7 @@ import (
 
 var watchCmd = &cobra.Command{
 	Use:   "watch",
-	Short: "Watch logs for metrics",
+	Short: "Watch structured logs for metrics",
 	Run: func(cmd *cobra.Command, args []string) {
 		if Verbose {
 			log.SetLevel(log.DebugLevel)
