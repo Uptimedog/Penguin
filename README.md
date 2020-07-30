@@ -1,6 +1,7 @@
 <p align="center">
     <img src="/assets/gopher1.png" width="230" />
     <h3 align="center">Penguin</h3>
+    <p align="center">Daemon for fast and flexible stats aggregation and collection</p>
     <p align="center">
         <a href="https://travis-ci.com/Clivern/Penguin"><img src="https://travis-ci.com/Clivern/Penguin.svg?branch=master"></a>
         <a href="https://github.com/Clivern/Penguin/releases"><img src="https://img.shields.io/badge/Version-0.0.1-red.svg"></a>
