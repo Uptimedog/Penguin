@@ -46,6 +46,7 @@
     method = "get"
     headers = [ ["Content-Type", "application/json"] ]
     parameters = []
+    public = true
     uri = "/"
     body = ""
 
@@ -56,6 +57,7 @@
     method = "get"
     headers = [ ["Content-Type", "application/json"] ]
     parameters = []
+    public = true
     uri = "/_health"
     body = ""
 
@@ -66,5 +68,6 @@
     method = "get"
     headers = []
     parameters = []
+    public = true
     uri = "/metrics"
     body = ""
