@@ -5,12 +5,15 @@
 package controller
 
 import (
-	log "github.com/sirupsen/logrus"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
-// Daemon function
-func Daemon(messages <-chan string) {
-	for message := range messages {
-		log.Info(message)
-	}
+// Listener controller
+func Listener(c *gin.Context, messages chan<- string) {
+	messages <- "wip1"
+
+	c.Status(http.StatusAccepted)
+	return
 }

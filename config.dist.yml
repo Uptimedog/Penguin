@@ -12,6 +12,17 @@ app:
         pemPath: ${PENGUIN_API_TLS_PEMPATH:-cert/server.pem}
         keyPath: ${PENGUIN_API_TLS_KEYPATH:-cert/server.key}
 
+    # Message Broker Configs
+    broker:
+        # Broker driver (native)
+        driver: ${PENGUIN_BROKER_DRIVER:-native}
+        # Native driver configs
+        native:
+            # Queue max capacity
+            capacity: ${PENGUIN_BROKER_NATIVE_CAPACITY:-5000}
+            # Number of concurrent workers
+            workers: ${PENGUIN_BROKER_NATIVE_WORKERS:-2}
+
     # API Configs
     api:
         key: ${PENGUIN_API_KEY:- }

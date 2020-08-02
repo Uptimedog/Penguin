@@ -121,6 +121,8 @@ var runCmd = &cobra.Command{
 			log.SetFormatter(&log.TextFormatter{})
 		}
 
+		messages := make(chan string, viper.GetInt("app.broker.native.capacity"))
+
 		r := gin.Default()
 
 		r.Use(middleware.Correlation())
@@ -134,9 +136,18 @@ var runCmd = &cobra.Command{
 
 		r.GET("/", controller.HealthCheck)
 		r.GET("/_health", controller.HealthCheck)
-		r.GET(viper.GetString("app.metrics.prometheus.endpoint"), gin.WrapH(controller.Metrics()))
 
-		go controller.Daemon()
+		r.POST("/listen", func(c *gin.Context) {
+			controller.Listener(c, messages)
+		})
+
+		r.GET(
+			viper.GetString("app.metrics.prometheus.endpoint"),
+			gin.WrapH(controller.Metrics()),
+		)
+
+		go controller.Daemon(messages)
+		go controller.Watcher(messages)
 
 		if viper.GetBool("app.tls.status") {
 			runerr = r.RunTLS(

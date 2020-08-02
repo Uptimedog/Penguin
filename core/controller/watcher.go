@@ -5,12 +5,13 @@
 package controller
 
 import (
-	log "github.com/sirupsen/logrus"
+	"time"
 )
 
-// Daemon function
-func Daemon(messages <-chan string) {
-	for message := range messages {
-		log.Info(message)
+// Watcher function
+func Watcher(messages chan<- string) {
+	for {
+		messages <- "wip2"
+		time.Sleep(1 * time.Second)
 	}
 }
