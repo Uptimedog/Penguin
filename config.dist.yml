@@ -20,8 +20,6 @@ app:
         native:
             # Queue max capacity
             capacity: ${PENGUIN_BROKER_NATIVE_CAPACITY:-5000}
-            # Number of concurrent workers
-            workers: ${PENGUIN_BROKER_NATIVE_WORKERS:-2}
 
     # API Configs
     api:
