@@ -30,7 +30,7 @@ var config string
 
 var runCmd = &cobra.Command{
 	Use:   "run",
-	Short: "Run statistics listener",
+	Short: "Run penguin server",
 	Run: func(cmd *cobra.Command, args []string) {
 		var runerr error
 
@@ -135,6 +135,8 @@ var runCmd = &cobra.Command{
 		r.GET("/", controller.HealthCheck)
 		r.GET("/_health", controller.HealthCheck)
 		r.GET(viper.GetString("app.metrics.prometheus.endpoint"), gin.WrapH(controller.Metrics()))
+
+		go controller.Daemon()
 
 		if viper.GetBool("app.tls.status") {
 			runerr = r.RunTLS(
