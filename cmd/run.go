@@ -134,10 +134,9 @@ var runCmd = &cobra.Command{
 			c.String(http.StatusNoContent, "")
 		})
 
-		r.GET("/", controller.HealthCheck)
 		r.GET("/_health", controller.HealthCheck)
 
-		r.POST("/listen", func(c *gin.Context) {
+		r.POST("/", func(c *gin.Context) {
 			controller.Listener(c, messages)
 		})
 
