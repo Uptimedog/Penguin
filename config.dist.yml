@@ -1,0 +1,46 @@
+# Metrics Input
+inputs:
+    http:
+        enabled: on
+        configs:
+            mode: dev
+            port: 8080
+            tls:
+                status: off
+                pemPath: cert/server.pem
+                keyPath: cert/server.key
+            path: /
+            api_key: ""
+
+    log:
+        enabled: on
+        paths:
+            - /var/log/*.log
+
+# Metrics Cache Driver
+cache:
+    type: memory
+
+# Metrics Output
+output:
+    console:
+        enabled: on
+
+    prometheus:
+        enabled: on
+        endpoint: /metrics
+
+    graphite:
+        enabled: off
+
+    penguin:
+        enabled: off
+
+# Log configs
+log:
+    # Log level, it can be debug, info, warn, error, panic, fatal
+    level: info
+    # output can be stdout or abs path to log file /var/logs/beetle.log
+    output: stdout
+    # Format can be json
+    format: json

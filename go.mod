@@ -3,8 +3,11 @@ module github.com/clivern/penguin
 go 1.14
 
 require (
-	github.com/BurntSushi/toml v0.3.1
-	github.com/manifoldco/promptui v0.7.0
+	github.com/drone/envsubst v1.0.2
+	github.com/gin-gonic/gin v1.6.3
+	github.com/prometheus/client_golang v0.9.3
+	github.com/satori/go.uuid v1.2.0
 	github.com/sirupsen/logrus v1.6.0
 	github.com/spf13/cobra v1.0.0
+	github.com/spf13/viper v1.4.0
 )

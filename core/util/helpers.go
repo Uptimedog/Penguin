@@ -12,6 +12,8 @@ import (
 	"path/filepath"
 	"reflect"
 	"strings"
+
+	"github.com/satori/go.uuid"
 )
 
 // InArray check if value is on array
@@ -28,6 +30,12 @@ func InArray(val interface{}, array interface{}) bool {
 	}
 
 	return false
+}
+
+// GenerateUUID4 create a UUID
+func GenerateUUID4() string {
+	u := uuid.Must(uuid.NewV4(), nil)
+	return u.String()
 }
 
 // ReadFile get the file content
