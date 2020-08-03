@@ -10,7 +10,7 @@ inputs:
                 pemPath: cert/server.pem
                 keyPath: cert/server.key
             path: /
-            api_key: "h"
+            api_key: ""
 
     log:
         enabled: on
