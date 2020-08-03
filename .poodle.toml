@@ -18,7 +18,7 @@
     name = "Clivern - Penguin"
     description = "Penguin API Definitions"
     timeout = "30s"
-    service_url = "https://example.com"
+    service_url = "{$serviceURL:http://127.0.0.1:8080}"
     # These headers will be applied to all endpoints http calls
     headers = []
 
