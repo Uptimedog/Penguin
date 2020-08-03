@@ -137,7 +137,10 @@ var runCmd = &cobra.Command{
 		r.Use(middleware.Correlation())
 		r.Use(middleware.Auth())
 		r.Use(middleware.Logger())
-		r.Use(middleware.Metric())
+
+		if viper.GetBool("output.prometheus.enabled") {
+			r.Use(middleware.Metric())
+		}
 
 		r.GET("/favicon.ico", func(c *gin.Context) {
 			c.String(http.StatusNoContent, "")

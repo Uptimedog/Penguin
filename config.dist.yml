@@ -30,6 +30,12 @@ output:
         enabled: on
         endpoint: /metrics
 
+    graphite:
+        enabled: off
+
+    penguin:
+        enabled: off
+
 # Log configs
 log:
     # Log level, it can be debug, info, warn, error, panic, fatal
