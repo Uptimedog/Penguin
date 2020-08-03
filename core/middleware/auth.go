@@ -6,7 +6,6 @@ package middleware
 
 import (
 	"net/http"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
@@ -19,9 +18,9 @@ func Auth() gin.HandlerFunc {
 		path := c.Request.URL.Path
 		method := c.Request.Method
 
-		if strings.Contains(path, "/api/") {
+		if path == viper.GetString("inputs.http.configs.path") {
 			apiKey := c.GetHeader("X-API-KEY")
-			if viper.GetString("app.api.key") != "" && apiKey != viper.GetString("app.api.key") {
+			if viper.GetString("inputs.http.configs.api_key") != "" && apiKey != viper.GetString("inputs.http.configs.api_key") {
 				log.WithFields(log.Fields{
 					"correlation_id": c.Request.Header.Get("X-Correlation-ID"),
 					"http_method":    method,
