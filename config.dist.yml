@@ -1,41 +1,40 @@
-# App configs
-app:
-    # Env mode (dev or prod)
-    mode: ${PENGUIN_APP_MODE:-dev}
-    # HTTP port
-    port: ${PENGUIN_API_PORT:-8080}
-    # App URL
-    domain: ${PENGUIN_APP_DOMAIN:-http://127.0.0.1:8080}
-    # TLS configs
-    tls:
-        status: ${PENGUIN_API_TLS_STATUS:-off}
-        pemPath: ${PENGUIN_API_TLS_PEMPATH:-cert/server.pem}
-        keyPath: ${PENGUIN_API_TLS_KEYPATH:-cert/server.key}
+# Metrics Input
+inputs:
+    http:
+        enabled: on
+        configs:
+            mode: dev
+            port: 8080
+            tls:
+                status: off
+                pemPath: cert/server.pem
+                keyPath: cert/server.key
+            path: /
+            api_key: ""
 
-    # Message Broker Configs
-    broker:
-        # Broker driver (native)
-        driver: ${PENGUIN_BROKER_DRIVER:-native}
-        # Native driver configs
-        native:
-            # Queue max capacity
-            capacity: ${PENGUIN_BROKER_NATIVE_CAPACITY:-5000}
+    log:
+        enabled: on
+        paths:
+            - /var/log/*.log
 
-    # API Configs
-    api:
-        key: ${PENGUIN_API_KEY:- }
+# Metrics Cache Driver
+cache:
+    type: memory
 
-    # Runtime, Requests/Response and Penguin Metrics
-    metrics:
-        prometheus:
-            # Route for the metrics endpoint
-            endpoint: ${PENGUIN_METRICS_PROM_ENDPOINT:-/metrics}
+# Metrics Output
+output:
+    console:
+        enabled: on
+
+    prometheus:
+        enabled: on
+        endpoint: /metrics
 
 # Log configs
 log:
     # Log level, it can be debug, info, warn, error, panic, fatal
-    level: ${PENGUIN_LOG_LEVEL:-info}
+    level: info
     # output can be stdout or abs path to log file /var/logs/beetle.log
-    output: ${PENGUIN_LOG_OUTPUT:-stdout}
+    output: stdout
     # Format can be json
-    format: ${PENGUIN_LOG_FORMAT:-json}
+    format: json

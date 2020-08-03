@@ -121,7 +121,16 @@ var runCmd = &cobra.Command{
 			log.SetFormatter(&log.TextFormatter{})
 		}
 
-		messages := make(chan string, viper.GetInt("app.broker.native.capacity"))
+		messages := make(chan string, 5000)
+
+		go controller.Daemon(messages)
+
+		if !viper.GetBool("inputs.http.enabled") {
+			controller.Watcher(messages)
+			return
+		} else {
+			go controller.Watcher(messages)
+		}
 
 		r := gin.Default()
 
@@ -136,27 +145,26 @@ var runCmd = &cobra.Command{
 
 		r.GET("/_health", controller.HealthCheck)
 
-		r.POST("/", func(c *gin.Context) {
+		r.POST(viper.GetString("inputs.http.configs.path"), func(c *gin.Context) {
 			controller.Listener(c, messages)
 		})
 
-		r.GET(
-			viper.GetString("app.metrics.prometheus.endpoint"),
-			gin.WrapH(controller.Metrics()),
-		)
+		if viper.GetBool("output.prometheus.enabled") {
+			r.GET(
+				viper.GetString("output.prometheus.endpoint"),
+				gin.WrapH(controller.Metrics()),
+			)
+		}
 
-		go controller.Daemon(messages)
-		go controller.Watcher(messages)
-
-		if viper.GetBool("app.tls.status") {
+		if viper.GetBool("inputs.http.configs.tls.status") {
 			runerr = r.RunTLS(
-				fmt.Sprintf(":%s", strconv.Itoa(viper.GetInt("app.port"))),
-				viper.GetString("app.tls.pemPath"),
-				viper.GetString("app.tls.keyPath"),
+				fmt.Sprintf(":%s", strconv.Itoa(viper.GetInt("inputs.http.configs.port"))),
+				viper.GetString("inputs.http.configs.tls.pemPath"),
+				viper.GetString("inputs.http.configs.tls.keyPath"),
 			)
 		} else {
 			runerr = r.Run(
-				fmt.Sprintf(":%s", strconv.Itoa(viper.GetInt("app.port"))),
+				fmt.Sprintf(":%s", strconv.Itoa(viper.GetInt("inputs.http.configs.port"))),
 			)
 		}
 
