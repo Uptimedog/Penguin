@@ -125,22 +125,20 @@ var runCmd = &cobra.Command{
 
 		go controller.Daemon(messages)
 
+		// If http input not enabled
 		if !viper.GetBool("inputs.http.enabled") {
 			controller.Watcher(messages)
 			return
-		} else {
-			go controller.Watcher(messages)
 		}
+
+		go controller.Watcher(messages)
 
 		r := gin.Default()
 
 		r.Use(middleware.Correlation())
 		r.Use(middleware.Auth())
 		r.Use(middleware.Logger())
-
-		if viper.GetBool("output.prometheus.enabled") {
-			r.Use(middleware.Metric())
-		}
+		r.Use(middleware.Metric())
 
 		r.GET("/favicon.ico", func(c *gin.Context) {
 			c.String(http.StatusNoContent, "")
@@ -152,12 +150,7 @@ var runCmd = &cobra.Command{
 			controller.Listener(c, messages)
 		})
 
-		if viper.GetBool("output.prometheus.enabled") {
-			r.GET(
-				viper.GetString("output.prometheus.endpoint"),
-				gin.WrapH(controller.Metrics()),
-			)
-		}
+		r.GET(viper.GetString("output.prometheus.endpoint"), gin.WrapH(controller.Metrics()))
 
 		if viper.GetBool("inputs.http.configs.tls.status") {
 			runerr = r.RunTLS(
