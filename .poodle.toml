@@ -1,16 +1,11 @@
-# API Definition for Penguin
+# API Definition For Penguin
 # --------------------------
 #
 # In order to use this file:
 # 1. Check & Install https://github.com/Clivern/Poodle
 #
-# 2. Create a new service for penguin.
-#   $ poodle new
-#
-# 3. Paste the content of this file & Replace example.com with your hosted penguin URL.
-#
-# 4. Now you can use poodle to interact with your hosted penguin.
-#   $ poodle new
+# 2. Now you can use poodle to interact with your local or hosted penguin.
+#   $ poodle call -f .poodle.toml
 #
 
 [Main]
@@ -40,15 +35,14 @@
         header = ["Authorization", "Bearer {$authBearerToken:default}"]
 
 [[Endpoint]]
-    id = "GetSystemHealth"
-    name = "Get System Health"
+    id = "SendMetric"
+    name = "Send System Metrics"
     description = ""
-    method = "get"
+    method = "post"
     headers = [ ["Content-Type", "application/json"] ]
     parameters = []
-    public = true
     uri = "/"
-    body = ""
+    body = "{}"
 
 [[Endpoint]]
     id = "GetSystemHealth"
