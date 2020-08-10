@@ -94,7 +94,7 @@ ci: style check_license test vet lint
 
 ## run: Run the service
 run:
-	$(GO) run scaffold.go
+	$(GO) run penguin.go
 
 
 .PHONY: help
