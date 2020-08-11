@@ -6,7 +6,6 @@ package model
 
 import (
 	"encoding/json"
-	"time"
 )
 
 // Metric struct
