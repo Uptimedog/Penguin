@@ -92,6 +92,16 @@ curl -X POST \
 
 Configure prometheus to scrape this URL `http://127.0.0.1:8000/metrics`
 
+To build and run with docker
+
+```bash
+$ docker build -t clivern/penguin:v1.0.2 .
+$ docker run -d -p 8000:8000 clivern/penguin:v1.0.2
+
+# For admins
+$ docker push clivern/penguin:v1.0.2
+```
+
 
 ## Versioning
 
