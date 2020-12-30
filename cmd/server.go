@@ -130,20 +130,6 @@ var serverCmd = &cobra.Command{
 			Timeout: time.Duration(viper.GetInt("app.timeout")) * time.Second,
 		}))
 
-		e.Use(middleware.KeyAuthWithConfig(middleware.KeyAuthConfig{
-			KeyLookup:  "header:x-api-key",
-			AuthScheme: "",
-			Validator: func(key string, c echo.Context) (bool, error) {
-				if !strings.Contains(c.Request().URL.Path, "/_listen") {
-					return true, nil
-				}
-
-				apiKey := viper.GetString("app.api_key")
-
-				return apiKey == "" || key == viper.GetString("app.api_key"), nil
-			},
-		}))
-
 		p := prometheus.NewPrometheus(viper.GetString("app.name"), nil)
 		p.Use(e)
 
@@ -154,7 +140,7 @@ var serverCmd = &cobra.Command{
 		prom := backend.NewPrometheus()
 
 		e.GET("/_health", controller.Health)
-		e.GET("/_health", controller.Home)
+		e.GET("/", controller.Home)
 		e.POST("/_listen", func(c echo.Context) error {
 			return controller.Listen(c, prom)
 		})

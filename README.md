@@ -10,10 +10,10 @@
             <img src="https://github.com/uptimedog/penguin/actions/workflows/release.yml/badge.svg">
         </a>
         <a href="https://github.com/uptimedog/penguin/releases">
-            <img src="https://img.shields.io/badge/Version-1.0.1-red.svg">
+            <img src="https://img.shields.io/badge/Version-1.0.2-red.svg">
         </a>
         <a href="https://goreportcard.com/report/github.com/uptimedog/penguin">
-            <img src="https://goreportcard.com/badge/github.com/uptimedog/penguin?v=1.0.1">
+            <img src="https://goreportcard.com/badge/github.com/uptimedog/penguin?v=1.0.2">
         </a>
         <a href="https://hub.docker.com/r/clivern/penguin">
             <img src="https://img.shields.io/badge/Docker-Latest-green">

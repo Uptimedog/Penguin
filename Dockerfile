@@ -1,10 +1,11 @@
 FROM ubuntu:22.04
 
-ARG PENGUIN_VERSION=1.0.1
+ARG PENGUIN_VERSION=1.0.2
 
 RUN mkdir -p /app/configs
 RUN mkdir -p /app/var/logs
 RUN apt-get update
+RUN apt-get install curl -y
 
 WORKDIR /app
 
@@ -21,4 +22,4 @@ VOLUME /app/var
 
 RUN ./penguin version
 
-CMD ["./penguin", "run", "-c", "/app/configs/config.dist.yml"]
+CMD ["./penguin", "server", "-c", "/app/configs/config.dist.yml"]

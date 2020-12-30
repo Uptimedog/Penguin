@@ -73,7 +73,7 @@ func (m *Metric) LabelValues() []string {
 	return values
 }
 
-// LabelValues gets a list of label values
+// GetValueAsFloat gets a list of label values
 func (m *Metric) GetValueAsFloat() (float64, error) {
 	value, err := strconv.ParseFloat(m.Value, 64)
 

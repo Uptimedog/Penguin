@@ -13,10 +13,18 @@ import (
 	"github.com/uptimedog/penguin/core/model"
 
 	"github.com/labstack/echo/v4"
+	"github.com/spf13/viper"
 )
 
 // Listen controller
 func Listen(c echo.Context, prom *backend.Prometheus) error {
+
+	apiKey := viper.GetString("app.api_key")
+
+	if apiKey != "" && apiKey != c.Request().Header.Get("x-api-key") {
+		return c.NoContent(http.StatusForbidden)
+	}
+
 	var bodyBytes []byte
 
 	if c.Request().Body != nil {
