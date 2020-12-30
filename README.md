@@ -1,107 +1,93 @@
 <p align="center">
-    <img src="/assets/gopher1.png" width="230" />
+    <img src="/static/logo.png" width="230" />
     <h3 align="center">Penguin</h3>
     <p align="center">Daemon for fast and flexible stats aggregation and collection</p>
     <p align="center">
-        <a href="https://github.com/Clivern/Penguin/actions"><img src="https://github.com/Clivern/Penguin/workflows/Build/badge.svg"></a>
-        <a href="https://github.com/Clivern/Penguin/actions"><img src="https://github.com/Clivern/Penguin/workflows/Release/badge.svg"></a>
-        <a href="https://github.com/Clivern/Penguin/releases"><img src="https://img.shields.io/badge/Version-0.0.2-red.svg"></a>
-        <a href="https://goreportcard.com/report/github.com/Clivern/Penguin"><img src="https://goreportcard.com/badge/github.com/Clivern/Penguin?v=0.0.2"></a>
-        <a href="https://hub.docker.com/r/clivern/penguin"><img src="https://img.shields.io/badge/Docker-Latest-green"></a>
-        <a href="https://github.com/Clivern/Penguin/blob/main/LICENSE"><img src="https://img.shields.io/badge/LICENSE-MIT-orange.svg"></a>
+        <a href="https://github.com/uptimedog/penguin/actions/workflows/build.yml">
+            <img src="https://github.com/uptimedog/penguin/actions/workflows/build.yml/badge.svg">
+        </a>
+        <a href="https://github.com/uptimedog/penguin/actions/workflows/release.yml">
+            <img src="https://github.com/uptimedog/penguin/actions/workflows/release.yml/badge.svg">
+        </a>
+        <a href="https://github.com/uptimedog/penguin/releases">
+            <img src="https://img.shields.io/badge/Version-1.0.0-red.svg">
+        </a>
+        <a href="https://goreportcard.com/report/github.com/uptimedog/penguin">
+            <img src="https://goreportcard.com/badge/github.com/uptimedog/penguin?v=1.0.0">
+        </a>
+        <a href="https://hub.docker.com/r/clivern/penguin">
+            <img src="https://img.shields.io/badge/Docker-Latest-green">
+        </a>
+        <a href="https://github.com/uptimedog/penguin/blob/main/LICENSE">
+            <img src="https://img.shields.io/badge/LICENSE-MIT-orange.svg">
+        </a>
     </p>
 </p>
 <br/>
 
-Penguin daemon listens for statistics like counters, gauges, histogram ... etc, sent over HTTP, UDP, TCP or observe log files and send them to a pluggable backend services like graphite or expose them to prometheus. Penguin is inspired by [statsd](https://github.com/statsd/statsd) and this [article](https://stripe.com/blog/canonical-log-lines) but still it is pretty different from [statsd](https://github.com/statsd/statsd).
+Penguin daemon listens for statistics like counters, gauges, histogram ... etc, sent over HTTP, UDP, TCP and expose them to prometheus. Penguin is inspired by [statsd](https://github.com/statsd/statsd) and this [article](https://stripe.com/blog/canonical-log-lines) but still it is pretty different from [statsd](https://github.com/statsd/statsd).
 
 
 ## Documentation
 
-Download [the latest penguin binary](https://github.com/Clivern/Penguin/releases). Make it executable from everywhere.
+Download [the latest penguin binary](https://github.com/uptimedog/penguin/releases). Make it executable from everywhere.
 
 ```bash
-$ curl -sL https://github.com/Clivern/Penguin/releases/download/vx.x.x/penguin_x.x.x_OS.tar.gz | tar xz
+$ curl -sL https://github.com/uptimedog/penguin/releases/download/vx.x.x/penguin_x.x.x_OS.tar.gz | tar xz
 ```
 
 Create a config file from `config.dist.yml`
 
 ```yaml
-# Metrics Input
-inputs:
-    # HTTP endpoint for metrics collection
-    http:
-        enabled: on
-        mode: prod
-        port: 8000
-        tls:
-            status: off
-            pemPath: cert/server.pem
-            keyPath: cert/server.key
-        path: /
-        api_key: ""
+# App configs
+app:
+  # App name
+  name: ${PENGUIN_NAME:-penguin}
 
-    # Log files to watch
-    log:
-        enabled: off
-        paths:
-            - /app/logs/metrics_1.log
-            - /app/logs/metrics_2.log
+  # Env mode (dev or prod)
+  mode: ${PENGUIN_MODE:-dev}
 
-# Metrics Cache Driver
-cache:
-    type: memory
-    enabled: off
+  # HTTP port
+  port: ${PENGUIN_PORT:-8000}
 
-    drivers:
-        memory:
-            buffer_size: 10
+  # Hostname
+  hostname: ${PENGUIN_HOSTNAME:-127.0.0.1}
 
-# Metrics Output
-output:
-    # Output metrics to console
-    console:
-        enabled: on
+  # TLS configs
+  tls:
+    status: ${PENGUIN_TLS_STATUS:-off}
+    crt_path: ${PENGUIN_TLS_PEMPATH:-cert/server.crt}
+    key_path: ${PENGUIN_TLS_KEYPATH:-cert/server.key}
 
-    # Expose to prometheus
-    prometheus:
-        enabled: on
-        endpoint: /metrics
+  # Global timeout
+  timeout: ${PENGUIN_TIMEOUT:-50}
 
-    # TODO: Support Graphite
-    graphite:
-        enabled: off
+  # API Key
+  api_key: ${PENGUIN_API_KEY:-xxxx-xxxx-xxxx-xxxx}
 
-# Log configs
-log:
+  # Log configs
+  log:
     # Log level, it can be debug, info, warn, error, panic, fatal
-    level: info
-    # output can be stdout or abs path to log file /var/logs/penguin.log
-    output: stdout
+    level: ${PENGUIN_LOG_LEVEL:-debug}
+    # Output can be stdout or abs path to log file /var/logs/penguin.log
+    output: ${PENGUIN_LOG_OUTPUT:-stdout}
     # Format can be json
-    format: json
+    format: ${PENGUIN_LOG_FORMAT:-json}
 ```
 
 Run Penguin
 
 ```bash
-$ penguin run -c /absolute/path/to/config.yml
-```
-
-Send metrics to log files that penguin observes
-
-```bash
-for ((i=1;i<=100000;i++)); echo '{"type":"counter","name":"penguin_orders","help":"the amount of orders.","method":"inc","value":1,"labels":{"type":"shirts"}}' >> /app/logs/metrics_1.log
-
-for ((i=1;i<=100000;i++)); echo '{"type":"counter","name":"penguin_orders","help":"the amount of orders.","method":"inc","value":1,"labels":{"type":"pants"}}' >> /app/logs/metrics_2.log
+$ penguin server -c /absolute/path/to/config.yml
 ```
 
 Send metrics to penguin HTTP endpoint
 
 ```bash
 curl -X POST \
+    -H "X-API-KEY: xxxx-xxxx-xxxx-xxxx" \
     -d '{"type":"counter","name":"penguin_orders","help":"the amount of orders.","method":"inc","value":1,"labels":{"type":"trousers"}}' \
-    http://127.0.0.1:8000
+    http://127.0.0.1:8000/_listen -v
 ```
 
 Configure prometheus to scrape this URL `http://127.0.0.1:8000/metrics`
@@ -111,12 +97,12 @@ Configure prometheus to scrape this URL `http://127.0.0.1:8000/metrics`
 
 For transparency into our release cycle and in striving to maintain backward compatibility, Penguin is maintained under the [Semantic Versioning guidelines](https://semver.org/) and release process is predictable and business-friendly.
 
-See the [Releases section of our GitHub project](https://github.com/clivern/penguin/releases) for changelogs for each release version of Penguin. It contains summaries of the most noteworthy changes made in each release.
+See the [Releases section of our GitHub project](https://github.com/uptimedog/penguin/releases) for changelogs for each release version of Penguin. It contains summaries of the most noteworthy changes made in each release.
 
 
 ## Bug tracker
 
-If you have any suggestions, bug reports, or annoyances please report them to our issue tracker at https://github.com/clivern/penguin/issues
+If you have any suggestions, bug reports, or annoyances please report them to our issue tracker at https://github.com/uptimedog/penguin/issues
 
 
 ## Security Issues
@@ -131,6 +117,6 @@ We are an open source, community-driven project so please feel free to join us. 
 
 ## License
 
-© 2020, Clivern. Released under [MIT License](https://opensource.org/licenses/mit-license.php).
+© 2020, Uptimedog. Released under [MIT License](https://opensource.org/licenses/mit-license.php).
 
-**Penguin** is authored and maintained by [@clivern](http://github.com/clivern).
+**Penguin** is authored and maintained by [@Uptimedog](http://github.com/uptimedog).

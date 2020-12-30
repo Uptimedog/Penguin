@@ -1,18 +1,22 @@
 name: Build
 
-on: [push]
+on:
+  push:
+  pull_request:
 
 jobs:
   build:
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        go: ['1.13', '1.14', '1.15']
+        go: ["1.17", "1.18", "1.19"]
     name: Go ${{ matrix.go }} run
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+
       - name: Setup go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v3
         with:
           go-version: ${{ matrix.go }}
 
@@ -24,7 +28,9 @@ jobs:
       - name: Run make ci
         run: |
           export PATH=${PATH}:`go env GOPATH`/bin
+          go get -t .
           make ci
+          make integration
           git status
           git diff > diff.log
           cat diff.log

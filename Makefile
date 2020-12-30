@@ -1,5 +1,5 @@
-GO           ?= go
-GOFMT        ?= $(GO)fmt
+go           ?= go
+gofmt        ?= $(go)fmt
 pkgs          = ./...
 
 
@@ -15,17 +15,17 @@ help: Makefile
 .PHONY: install_revive
 install_revive:
 	@echo ">> ============= Install Revive ============= <<"
-	$(GO) get github.com/mgechev/revive
+	$(go) install github.com/mgechev/revive@latest
 
 
 ## style: Check code style.
 .PHONY: style
 style:
 	@echo ">> ============= Checking Code Style ============= <<"
-	@fmtRes=$$($(GOFMT) -d $$(find . -path ./vendor -prune -o -name '*.go' -print)); \
+	@fmtRes=$$($(gofmt) -d $$(find . -path ./vendor -prune -o -name '*.go' -print)); \
 	if [ -n "$${fmtRes}" ]; then \
 		echo "gofmt checking failed!"; echo "$${fmtRes}"; echo; \
-		echo "Please ensure you are using $$($(GO) version) for formatting code."; \
+		echo "Please ensure you are using $$($(go) version) for formatting code."; \
 		exit 1; \
 	fi
 
@@ -35,36 +35,36 @@ style:
 check_license:
 	@echo ">> ============= Checking License Header ============= <<"
 	@licRes=$$(for file in $$(find . -type f -iname '*.go' ! -path './vendor/*') ; do \
-               awk 'NR<=3' $$file | grep -Eq "(Copyright|generated|GENERATED)" || echo $$file; \
-       done); \
-       if [ -n "$${licRes}" ]; then \
-               echo "license header checking failed:"; echo "$${licRes}"; \
-               exit 1; \
-       fi
+			   awk 'NR<=3' $$file | grep -Eq "(Copyright|generated|GENERATED)" || echo $$file; \
+	   done); \
+	   if [ -n "$${licRes}" ]; then \
+			   echo "license header checking failed:"; echo "$${licRes}"; \
+			   exit 1; \
+	   fi
 
 
 ## test_short: Run test cases with short flag.
 .PHONY: test_short
 test_short:
 	@echo ">> ============= Running Short Tests ============= <<"
-	$(GO) clean -testcache
-	$(GO) test -short $(pkgs)
+	$(go) clean -testcache
+	$(go) test -mod=readonly -short $(pkgs)
 
 
 ## test: Run test cases.
 .PHONY: test
 test:
 	@echo ">> ============= Running All Tests ============= <<"
-	$(GO) clean -testcache
-	$(GO) test -tags=unit -v -cover $(pkgs)
+	$(go) clean -testcache
+	$(go) test -mod=readonly -run=Unit -bench=. -benchmem -v -cover $(pkgs)
 
 
-## integration: Run integration test cases (Requires etcd, RabbitMQ)
+## integration: Run integration test cases (Requires etcd)
 .PHONY: integration
 integration:
 	@echo ">> ============= Running All Tests ============= <<"
-	$(GO) clean -testcache
-	$(GO) test -tags=integration -v -cover $(pkgs)
+	$(go) clean -testcache
+	$(go) test -mod=readonly -run=Integration -bench=. -benchmem -v -cover $(pkgs)
 
 
 ## lint: Lint the code.
@@ -78,23 +78,23 @@ lint:
 .PHONY: verify
 verify:
 	@echo ">> ============= List Dependencies ============= <<"
-	$(GO) list -m all
+	$(go) list -m all
 	@echo ">> ============= Verify Dependencies ============= <<"
-	$(GO) mod verify
+	$(go) mod verify
 
 
 ## format: Format the code.
 .PHONY: format
 format:
 	@echo ">> ============= Formatting Code ============= <<"
-	$(GO) fmt $(pkgs)
+	$(go) fmt $(pkgs)
 
 
 ## vet: Examines source code and reports suspicious constructs.
 .PHONY: vet
 vet:
 	@echo ">> ============= Vetting Code ============= <<"
-	$(GO) vet $(pkgs)
+	$(go) vet $(pkgs)
 
 
 ## coverage: Create HTML coverage report
@@ -102,22 +102,21 @@ vet:
 coverage:
 	@echo ">> ============= Coverage ============= <<"
 	rm -f coverage.html cover.out
-	$(GO) test -coverprofile=cover.out $(pkgs)
+	$(go) test -mod=readonly -coverprofile=cover.out $(pkgs)
 	go tool cover -html=cover.out -o coverage.html
+
+
+## run: Run the Server
+.PHONY: run
+run:
+	@echo ">> ============= Run API Server ============= <<"
+	$(go) run penguin.go server -c config.dist.yml
 
 
 ## ci: Run all CI tests.
 .PHONY: ci
 ci: style check_license test vet lint
-	-cp -n config.dist.yml config.test.yml
 	@echo "\n==> All quality checks passed"
-
-
-## run: Run the service
-.PHONY: run
-run:
-	-cp -n config.dist.yml config.prod.yml
-	$(GO) run penguin.go run -c config.prod.yml
 
 
 .PHONY: help

@@ -3,7 +3,7 @@ app:
   # App name
   name: ${PENGUIN_NAME:-penguin}
   # Env mode (dev or prod)
-  mode: ${PENGUIN_MODE:-dev}
+  mode: ${PENGUIN_MODE:-prod}
   # HTTP port
   port: ${PENGUIN_PORT:-8000}
   # Hostname
@@ -23,8 +23,8 @@ app:
   # Log configs
   log:
     # Log level, it can be debug, info, warn, error, panic, fatal
-    level: ${PENGUIN_LOG_LEVEL:-debug}
+    level: ${PENGUIN_LOG_LEVEL:-info}
     # Output can be stdout or abs path to log file /var/logs/penguin.log
-    output: ${PENGUIN_LOG_OUTPUT:-stdout}
+    output: ${PENGUIN_LOG_OUTPUT:-/var/logs/penguin.log}
     # Format can be json
     format: ${PENGUIN_LOG_FORMAT:-json}

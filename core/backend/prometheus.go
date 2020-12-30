@@ -7,10 +7,9 @@ package backend
 import (
 	"fmt"
 
-	"github.com/clivern/penguin/core/model"
+	"github.com/uptimedog/penguin/core/model"
 
 	"github.com/prometheus/client_golang/prometheus"
-	log "github.com/sirupsen/logrus"
 )
 
 // Prometheus struct
@@ -22,29 +21,22 @@ func NewPrometheus() *Prometheus {
 }
 
 // Send sends metrics to prometheus
-func (p *Prometheus) Send(metrics []model.Metric) error {
-	log.Info(fmt.Sprintf(
-		"Send %d metrics to prometheus backend",
-		len(metrics),
-	))
+func (p *Prometheus) Send(metric model.Metric) error {
+	switch metric.Type {
+	case model.COUNTER:
+		p.Counter(metric)
 
-	for _, metric := range metrics {
-		switch metric.Type {
-		case model.COUNTER:
-			p.Counter(metric)
+	case model.GAUGE:
+		p.Gauge(metric)
 
-		case model.GAUGE:
-			p.Gauge(metric)
+	case model.HISTOGRAM:
+		p.Histogram(metric)
 
-		case model.HISTOGRAM:
-			p.Histogram(metric)
+	case model.SUMMARY:
+		p.Summary(metric)
 
-		case model.SUMMARY:
-			p.Summary(metric)
-
-		default:
-			return fmt.Errorf("metric with type %s not implemented yet", metric.Type)
-		}
+	default:
+		return fmt.Errorf("metric with type %s not implemented yet", metric.Type)
 	}
 
 	return nil

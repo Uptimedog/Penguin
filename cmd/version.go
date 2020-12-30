@@ -5,9 +5,9 @@
 package cmd
 
 import (
+	"embed"
 	"fmt"
 
-	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -22,16 +22,13 @@ var (
 	BuiltBy = "unknown"
 )
 
+// Static embedded files
+var Static embed.FS
+
 var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "Print the version number",
 	Run: func(cmd *cobra.Command, args []string) {
-		if Verbose {
-			log.SetLevel(log.DebugLevel)
-		}
-
-		log.Debug("Version command got called.")
-
 		fmt.Println(
 			fmt.Sprintf(
 				`Current Penguin Version %v Commit %v, Built @%v By %v.`,

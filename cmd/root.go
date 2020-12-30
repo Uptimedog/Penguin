@@ -8,37 +8,17 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/clivern/penguin/core/util"
-
 	"github.com/spf13/cobra"
 )
 
-// Verbose var
-var Verbose bool
-
-// Config var
-var Config string
-
-// ConfigFilePath var
-const ConfigFilePath = "penguin_config.toml"
+var config string
 
 var rootCmd = &cobra.Command{
 	Use: "penguin",
-	Short: `Daemon for fast and flexible stats aggregation and collection
+	Short: `🔥 Daemon for fast and flexible stats aggregation and collection
 
 If you have any suggestions, bug reports, or annoyances please report
-them to our issue tracker at <https://github.com/clivern/penguin/issues>`,
-}
-
-func init() {
-	rootCmd.PersistentFlags().BoolVarP(&Verbose, "verbose", "v", false, "verbose output")
-	rootCmd.PersistentFlags().StringVarP(
-		&Config,
-		"config",
-		"c",
-		fmt.Sprintf("%s%s", util.EnsureTrailingSlash(os.Getenv("HOME")), ConfigFilePath),
-		"config file",
-	)
+them to our issue tracker at <https://github.com/Clivern/knot/issues>`,
 }
 
 // Execute runs cmd tool

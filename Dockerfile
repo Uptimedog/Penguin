@@ -1,8 +1,6 @@
-FROM golang:1.17.3
+FROM ubuntu:22.04
 
-ARG PENGUIN_VERSION=0.0.2
-
-ENV GO111MODULE=on
+ARG PENGUIN_VERSION=1.0.0
 
 RUN mkdir -p /app/configs
 RUN mkdir -p /app/var/logs

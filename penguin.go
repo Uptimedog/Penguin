@@ -5,10 +5,7 @@
 package main
 
 import (
-	"os"
-
-	"github.com/clivern/penguin/cmd"
-	log "github.com/sirupsen/logrus"
+	"github.com/uptimedog/penguin/cmd"
 )
 
 var (
@@ -19,16 +16,10 @@ var (
 )
 
 func main() {
-	// Expose build info to cmd subpackage to avoid custom ldflags
 	cmd.Version = version
 	cmd.Commit = commit
 	cmd.Date = date
 	cmd.BuiltBy = builtBy
-
-	log.SetOutput(os.Stdout)
-	log.SetLevel(log.WarnLevel)
-	log.SetFormatter(&log.JSONFormatter{})
-	// log.SetFormatter(&log.TextFormatter{})
 
 	cmd.Execute()
 }
