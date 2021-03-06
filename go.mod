@@ -4,7 +4,6 @@ go 1.16
 
 require (
 	github.com/drone/envsubst v1.0.2
-	github.com/franela/goblin v0.0.0-20210113153425-413781f5e6c8
 	github.com/gin-gonic/gin v1.6.3
 	github.com/nxadm/tail v1.4.8
 	github.com/prometheus/client_golang v1.9.0
