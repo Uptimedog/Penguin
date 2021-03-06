@@ -80,7 +80,13 @@ log:
 
 ```
 
-Send metrics to log files
+Run Penguin
+
+```bash
+$ penguin run -c /absolute/path/to/config.yml
+```
+
+Send metrics to log files that penguin observes
 
 ```bash
 for ((i=1;i<=100000;i++)); echo '{"type":"counter","name":"penguin_orders","help":"the amount of orders.","method":"inc","value":1,"labels":{"type":"shirts"}}' >> /app/logs/metrics_1.log
