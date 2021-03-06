@@ -12,6 +12,8 @@
 </p>
 <br/>
 
+Penguin daemon listen for statistics like counters, gauges, histogram ... etc, sent over HTTP, UDP, TCP or observe log files and send them to a pluggable backend services like graphite or expose them to prometheus. Penguin is inspired by [statsd](https://github.com/statsd/statsd) and this [article](https://stripe.com/blog/canonical-log-lines) but still it is pretty different from [statsd](https://github.com/statsd/statsd).
+
 
 ## Documentation
 
