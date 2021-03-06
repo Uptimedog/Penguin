@@ -4,7 +4,7 @@ inputs:
     http:
         enabled: on
         mode: prod
-        port: 8000
+        port: 8080
         tls:
             status: off
             pemPath: cert/server.pem
@@ -22,7 +22,7 @@ inputs:
 # Metrics Cache Driver
 cache:
     type: memory
-    enabled: off
+    enabled: on
 
     drivers:
         memory:
@@ -47,7 +47,7 @@ output:
 log:
     # Log level, it can be debug, info, warn, error, panic, fatal
     level: info
-    # output can be stdout or abs path to log file /var/logs/penguin.log
+    # output can be stdout or abs path to log file /var/logs/beetle.log
     output: stdout
     # Format can be json
     format: json

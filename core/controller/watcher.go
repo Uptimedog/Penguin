@@ -6,6 +6,7 @@ package controller
 
 import (
 	"fmt"
+	"sync"
 
 	"github.com/clivern/penguin/core/model"
 
@@ -17,14 +18,16 @@ import (
 // Watcher function
 func Watcher(messages chan<- string) {
 	paths := viper.GetStringSlice("inputs.log.paths")
+	var wg sync.WaitGroup
 
 	for _, path := range paths {
 
 		log.WithFields(log.Fields{
 			"log_file": path,
 		}).Info("Watch log file")
+		wg.Add(1)
 
-		go func(file string, channel chan<- string) {
+		go func(swg *sync.WaitGroup, file string, channel chan<- string) {
 			t, err := tail.TailFile(
 				file,
 				tail.Config{Follow: true, ReOpen: true},
@@ -48,6 +51,10 @@ func Watcher(messages chan<- string) {
 
 				channel <- message
 			}
-		}(path, messages)
+
+			defer swg.Done()
+		}(&wg, path, messages)
 	}
+
+	wg.Wait()
 }

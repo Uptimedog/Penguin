@@ -125,13 +125,13 @@ var runCmd = &cobra.Command{
 
 		go controller.Daemon(messages)
 
-		// If http input not enabled
-		if !viper.GetBool("inputs.http.enabled") {
+		// If http input not enabled & log watcher enabled
+		if !viper.GetBool("inputs.http.enabled") && viper.GetBool("inputs.log.enabled") {
 			controller.Watcher(messages)
 			return
+		} else if viper.GetBool("inputs.log.enabled") {
+			go controller.Watcher(messages)
 		}
-
-		go controller.Watcher(messages)
 
 		r := gin.Default()
 

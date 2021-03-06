@@ -5,8 +5,8 @@
     <p align="center">
         <a href="https://github.com/Clivern/Penguin/actions"><img src="https://github.com/Clivern/Penguin/workflows/Build/badge.svg"></a>
         <a href="https://github.com/Clivern/Penguin/actions"><img src="https://github.com/Clivern/Penguin/workflows/Release/badge.svg"></a>
-        <a href="https://github.com/Clivern/Penguin/releases"><img src="https://img.shields.io/badge/Version-0.0.1-red.svg"></a>
-        <a href="https://goreportcard.com/report/github.com/Clivern/Penguin"><img src="https://goreportcard.com/badge/github.com/Clivern/Penguin?v=0.0.1"></a>
+        <a href="https://github.com/Clivern/Penguin/releases"><img src="https://img.shields.io/badge/Version-0.0.2-red.svg"></a>
+        <a href="https://goreportcard.com/report/github.com/Clivern/Penguin"><img src="https://goreportcard.com/badge/github.com/Clivern/Penguin?v=0.0.2"></a>
         <a href="https://github.com/Clivern/Penguin/blob/main/LICENSE"><img src="https://img.shields.io/badge/LICENSE-MIT-orange.svg"></a>
     </p>
 </p>
@@ -32,7 +32,7 @@ inputs:
     http:
         enabled: on
         mode: prod
-        port: 8080
+        port: 8000
         tls:
             status: off
             pemPath: cert/server.pem
@@ -42,7 +42,7 @@ inputs:
 
     # Log files to watch
     log:
-        enabled: on
+        enabled: off
         paths:
             - /app/logs/metrics_1.log
             - /app/logs/metrics_2.log
@@ -50,7 +50,7 @@ inputs:
 # Metrics Cache Driver
 cache:
     type: memory
-    enabled: on
+    enabled: off
 
     drivers:
         memory:
@@ -79,7 +79,6 @@ log:
     output: stdout
     # Format can be json
     format: json
-
 ```
 
 Run Penguin
@@ -101,10 +100,10 @@ Send metrics to penguin HTTP endpoint
 ```bash
 curl -X POST \
     -d '{"type":"counter","name":"penguin_orders","help":"the amount of orders.","method":"inc","value":1,"labels":{"type":"trousers"}}' \
-    http://127.0.0.1:8080
+    http://127.0.0.1:8000
 ```
 
-Configure prometheus to scrape this URL `http://127.0.0.1:8080/metrics`
+Configure prometheus to scrape this URL `http://127.0.0.1:8000/metrics`
 
 
 ## Versioning
