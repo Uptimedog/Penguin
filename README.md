@@ -3,7 +3,8 @@
     <h3 align="center">Penguin</h3>
     <p align="center">Daemon for fast and flexible stats aggregation and collection</p>
     <p align="center">
-        <a href="https://travis-ci.com/Clivern/Penguin"><img src="https://travis-ci.com/Clivern/Penguin.svg?branch=main"></a>
+        <a href="https://github.com/Clivern/Penguin/actions"><img src="https://github.com/Clivern/Penguin/workflows/Build/badge.svg"></a>
+        <a href="https://github.com/Clivern/Penguin/actions"><img src="https://github.com/Clivern/Penguin/workflows/Release/badge.svg"></a>
         <a href="https://github.com/Clivern/Penguin/releases"><img src="https://img.shields.io/badge/Version-0.0.1-red.svg"></a>
         <a href="https://goreportcard.com/report/github.com/Clivern/Penguin"><img src="https://goreportcard.com/badge/github.com/Clivern/Penguin?v=0.0.1"></a>
         <a href="https://github.com/Clivern/Penguin/blob/main/LICENSE"><img src="https://img.shields.io/badge/LICENSE-MIT-orange.svg"></a>
