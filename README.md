@@ -7,6 +7,7 @@
         <a href="https://github.com/Clivern/Penguin/actions"><img src="https://github.com/Clivern/Penguin/workflows/Release/badge.svg"></a>
         <a href="https://github.com/Clivern/Penguin/releases"><img src="https://img.shields.io/badge/Version-0.0.2-red.svg"></a>
         <a href="https://goreportcard.com/report/github.com/Clivern/Penguin"><img src="https://goreportcard.com/badge/github.com/Clivern/Penguin?v=0.0.2"></a>
+        <a href="https://hub.docker.com/r/clivern/penguin"><img src="https://img.shields.io/badge/Docker-Latest-green"></a>
         <a href="https://github.com/Clivern/Penguin/blob/main/LICENSE"><img src="https://img.shields.io/badge/LICENSE-MIT-orange.svg"></a>
     </p>
 </p>
