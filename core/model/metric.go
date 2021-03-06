@@ -6,16 +6,31 @@ package model
 
 import (
 	"encoding/json"
+	"strconv"
+
+	"github.com/prometheus/client_golang/prometheus"
+)
+
+const (
+	// COUNTER is a Prometheus COUNTER metric
+	COUNTER string = "counter"
+	// GAUGE is a Prometheus GAUGE metric
+	GAUGE string = "gauge"
+	// HISTOGRAM is a Prometheus HISTOGRAM metric
+	HISTOGRAM string = "histogram"
+	// SUMMARY is a Prometheus SUMMARY metric
+	SUMMARY string = "summary"
 )
 
 // Metric struct
 type Metric struct {
-	Type   string            `json:"type"`
-	Name   string            `json:"name"`
-	Help   string            `json:"help"`
-	Method string            `json:"method"`
-	Value  string            `json:"value"`
-	Labels map[string]string `json:"labels"`
+	Type    string            `json:"type"`
+	Name    string            `json:"name"`
+	Help    string            `json:"help"`
+	Method  string            `json:"method"`
+	Value   string            `json:"value"`
+	Labels  prometheus.Labels `json:"labels"`
+	Buckets []float64         `json:"buckets"`
 }
 
 // LoadFromJSON update object from json
@@ -34,4 +49,37 @@ func (m *Metric) ConvertToJSON() (string, error) {
 		return "", err
 	}
 	return string(data), nil
+}
+
+// LabelKeys gets a list of label keys
+func (m *Metric) LabelKeys() []string {
+	keys := []string{}
+
+	for k := range m.Labels {
+		keys = append(keys, k)
+	}
+
+	return keys
+}
+
+// LabelValues gets a list of label values
+func (m *Metric) LabelValues() []string {
+	values := []string{}
+
+	for _, v := range m.Labels {
+		values = append(values, v)
+	}
+
+	return values
+}
+
+// LabelValues gets a list of label values
+func (m *Metric) GetValueAsFloat() (float64, error) {
+	value, err := strconv.ParseFloat(m.Value, 64)
+
+	if err != nil {
+		return 0, nil
+	}
+
+	return value, nil
 }

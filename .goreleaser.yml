@@ -17,6 +17,11 @@ builds:
   -
     env:
       - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+
 changelog:
   filters:
     exclude:
@@ -27,4 +32,4 @@ checksum:
   name_template: checksums.txt
 snapshot:
   name_template: "{{ .Tag }}-next"
-project_name: scaffold
+project_name: penguin

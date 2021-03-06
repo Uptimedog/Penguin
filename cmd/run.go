@@ -146,21 +146,21 @@ var runCmd = &cobra.Command{
 
 		r.GET("/_health", controller.HealthCheck)
 
-		r.POST(viper.GetString("inputs.http.configs.path"), func(c *gin.Context) {
+		r.POST(viper.GetString("inputs.http.path"), func(c *gin.Context) {
 			controller.Listener(c, messages)
 		})
 
 		r.GET(viper.GetString("output.prometheus.endpoint"), gin.WrapH(controller.Metrics()))
 
-		if viper.GetBool("inputs.http.configs.tls.status") {
+		if viper.GetBool("inputs.http.tls.status") {
 			runerr = r.RunTLS(
-				fmt.Sprintf(":%s", strconv.Itoa(viper.GetInt("inputs.http.configs.port"))),
-				viper.GetString("inputs.http.configs.tls.pemPath"),
-				viper.GetString("inputs.http.configs.tls.keyPath"),
+				fmt.Sprintf(":%s", strconv.Itoa(viper.GetInt("inputs.http.port"))),
+				viper.GetString("inputs.http.tls.pemPath"),
+				viper.GetString("inputs.http.tls.keyPath"),
 			)
 		} else {
 			runerr = r.Run(
-				fmt.Sprintf(":%s", strconv.Itoa(viper.GetInt("inputs.http.configs.port"))),
+				fmt.Sprintf(":%s", strconv.Itoa(viper.GetInt("inputs.http.port"))),
 			)
 		}
 

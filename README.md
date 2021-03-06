@@ -3,10 +3,10 @@
     <h3 align="center">Penguin</h3>
     <p align="center">Daemon for fast and flexible stats aggregation and collection</p>
     <p align="center">
-        <a href="https://travis-ci.com/Clivern/Penguin"><img src="https://travis-ci.com/Clivern/Penguin.svg?branch=master"></a>
+        <a href="https://travis-ci.com/Clivern/Penguin"><img src="https://travis-ci.com/Clivern/Penguin.svg?branch=main"></a>
         <a href="https://github.com/Clivern/Penguin/releases"><img src="https://img.shields.io/badge/Version-0.0.1-red.svg"></a>
         <a href="https://goreportcard.com/report/github.com/Clivern/Penguin"><img src="https://goreportcard.com/badge/github.com/Clivern/Penguin?v=0.0.1"></a>
-        <a href="https://github.com/Clivern/Penguin/blob/master/LICENSE"><img src="https://img.shields.io/badge/LICENSE-MIT-orange.svg"></a>
+        <a href="https://github.com/Clivern/Penguin/blob/main/LICENSE"><img src="https://img.shields.io/badge/LICENSE-MIT-orange.svg"></a>
     </p>
 </p>
 <br/>
@@ -14,11 +14,88 @@
 
 ## Documentation
 
-Download [the latest penguin binary](https://github.com/Clivern/Penguin/releases).
+Download [the latest penguin binary](https://github.com/Clivern/Penguin/releases). Make it executable from everywhere.
 
-```zsh
-$ curl -sL https://github.com/Clivern/Penguin/releases/download/x.x.x/penguin_x.x.x_OS.tar.gz | tar xz
+```bash
+$ curl -sL https://github.com/Clivern/Penguin/releases/download/vx.x.x/penguin_x.x.x_OS.tar.gz | tar xz
 ```
+
+Create a config file from `config.dist.yml`
+
+```yaml
+# Metrics Input
+inputs:
+    # HTTP endpoint for metrics collection
+    http:
+        enabled: on
+        mode: prod
+        port: 8080
+        tls:
+            status: off
+            pemPath: cert/server.pem
+            keyPath: cert/server.key
+        path: /
+        api_key: ""
+
+    # Log files to watch
+    log:
+        enabled: on
+        paths:
+            - /app/logs/metrics_1.log
+            - /app/logs/metrics_2.log
+
+# Metrics Cache Driver
+cache:
+    type: memory
+    enabled: on
+
+    drivers:
+        memory:
+            buffer_size: 10
+
+# Metrics Output
+output:
+    # Output metrics to console
+    console:
+        enabled: on
+
+    # Expose to prometheus
+    prometheus:
+        enabled: on
+        endpoint: /metrics
+
+    # TODO: Support Graphite
+    graphite:
+        enabled: off
+
+# Log configs
+log:
+    # Log level, it can be debug, info, warn, error, panic, fatal
+    level: info
+    # output can be stdout or abs path to log file /var/logs/penguin.log
+    output: stdout
+    # Format can be json
+    format: json
+
+```
+
+Send metrics to log files
+
+```bash
+for ((i=1;i<=100000;i++)); echo '{"type":"counter","name":"penguin_orders","help":"the amount of orders.","method":"inc","value":1,"labels":{"type":"shirts"}}' >> /app/logs/metrics_1.log
+
+for ((i=1;i<=100000;i++)); echo '{"type":"counter","name":"penguin_orders","help":"the amount of orders.","method":"inc","value":1,"labels":{"type":"pants"}}' >> /app/logs/metrics_2.log
+```
+
+Send metrics to penguin HTTP endpoint
+
+```bash
+curl -X POST \
+    -d '{"type":"counter","name":"penguin_orders","help":"the amount of orders.","method":"inc","value":1,"labels":{"type":"trousers"}}' \
+    http://127.0.0.1:8080
+```
+
+Configure prometheus to scrape this URL `http://127.0.0.1:8080/metrics`
 
 
 ## Versioning

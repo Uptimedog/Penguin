@@ -15,6 +15,12 @@ import (
 // Graphite struct
 type Graphite struct{}
 
+// NewGraphite create a new instance of graphite backend
+func NewGraphite() *Graphite {
+	return &Graphite{}
+}
+
+// Send sends metrics to graphite backend
 func (g *Graphite) Send(metrics []model.Metric) error {
 	log.Info(fmt.Sprintf(
 		"Send %d metrics to graphite backend",

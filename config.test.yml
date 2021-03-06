@@ -1,9 +1,8 @@
 # Metrics Input
 inputs:
-    # HTTP endpoint for metrics collection
     http:
         enabled: on
-        mode: prod
+        mode: dev
         port: 8080
         tls:
             status: off
@@ -12,12 +11,11 @@ inputs:
         path: /
         api_key: ""
 
-    # Log files to watch
     log:
         enabled: on
         paths:
-            - /app/logs/metrics_1.log
-            - /app/logs/metrics_2.log
+            - /Users/Ahmed/Space/Personal/oss/Penguin/cache/prod.log
+            - /Users/Ahmed/Space/Personal/oss/Penguin/cache/dev.log
 
 # Metrics Cache Driver
 cache:
@@ -26,22 +24,21 @@ cache:
 
     drivers:
         memory:
-            buffer_size: 10
+            buffer_size: 50
 
 # Metrics Output
 output:
-    # Output metrics to console
     console:
         enabled: on
 
-    # Expose to prometheus
+    graphite:
+        enabled: on
+
+    penguin:
+        enabled: on
+
     prometheus:
         enabled: on
-        endpoint: /metrics
-
-    # TODO: Support Graphite
-    graphite:
-        enabled: off
 
 # Log configs
 log:
