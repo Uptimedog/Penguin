@@ -10,10 +10,10 @@
             <img src="https://github.com/uptimedog/penguin/actions/workflows/release.yml/badge.svg">
         </a>
         <a href="https://github.com/uptimedog/penguin/releases">
-            <img src="https://img.shields.io/badge/Version-1.0.2-red.svg">
+            <img src="https://img.shields.io/badge/Version-1.0.3-red.svg">
         </a>
         <a href="https://goreportcard.com/report/github.com/uptimedog/penguin">
-            <img src="https://goreportcard.com/badge/github.com/uptimedog/penguin?v=1.0.2">
+            <img src="https://goreportcard.com/badge/github.com/uptimedog/penguin?v=1.0.3">
         </a>
         <a href="https://hub.docker.com/r/clivern/penguin">
             <img src="https://img.shields.io/badge/Docker-Latest-green">
@@ -95,11 +95,11 @@ Configure prometheus to scrape this URL `http://127.0.0.1:8000/metrics`
 To build and run with docker
 
 ```bash
-$ docker build -t clivern/penguin:v1.0.2 .
-$ docker run -d -p 8000:8000 clivern/penguin:v1.0.2
+$ docker build -t clivern/penguin:v1.0.3 .
+$ docker run -d -p 8000:8000 clivern/penguin:v1.0.3
 
 # For admins
-$ docker push clivern/penguin:v1.0.2
+$ docker push clivern/penguin:v1.0.3
 ```
 
 
