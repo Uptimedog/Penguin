@@ -1,4 +1,4 @@
-FROM golang:1.16.5
+FROM golang:1.16.6
 
 ARG PENGUIN_VERSION=0.0.2
 
