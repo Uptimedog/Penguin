@@ -1,6 +1,6 @@
 module github.com/uptimedog/penguin
 
-go 1.17
+go 1.19
 
 require (
 	github.com/clivern/penguin v0.0.2
