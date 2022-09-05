@@ -3,10 +3,9 @@ module github.com/uptimedog/penguin
 go 1.17
 
 require (
-	github.com/clivern/penguin v0.0.2
 	github.com/drone/envsubst v1.0.3
 	github.com/labstack/echo-contrib v0.13.0
-	github.com/labstack/echo/v4 v4.8.0
+	github.com/labstack/echo/v4 v4.9.0
 	github.com/prometheus/client_golang v1.13.0
 	github.com/sirupsen/logrus v1.9.0
 	github.com/spf13/cobra v1.5.0
